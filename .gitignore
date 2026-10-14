@@ -1,0 +1,8 @@
+node_modules
+data
+.env
+web/dist
+engine/wraps/*.png
+__pycache__
+*.pyc
+.DS_Store
