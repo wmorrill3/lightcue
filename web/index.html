@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>LightCue</title>
+  <meta name="description" content="Drop any song. LightCue choreographs a custom light show for your Tesla: lights, doors, windows, mirrors, charge port and interior. USB-ready in seconds. Plus an API and MCP server for AI agents." />
+  <meta property="og:title" content="LightCue: AI light shows for your Tesla" />
+  <meta property="og:description" content="Any song in, a USB-ready Tesla light show out. One car or a whole fleet in sync." />
+  <meta property="og:image" content="/og.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="icon" href="/icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+  <header class="top">
+    <a class="brand" href="/"><img src="/mark.png" alt="" width="26" height="26" /><span>LightCue</span></a>
+    <nav><a href="#how">How it works</a><a href="#fleet">Fleet</a><a href="#agents">API &amp; MCP</a><a href="https://github.com/wmorrill3/lightcue" target="_blank" rel="noopener">GitHub</a></nav>
+  </header>
+
+  <section class="hero">
+    <canvas id="stage"></canvas>
+    <div class="hero-copy">
+      <p class="eyebrow">New · Roadster liftoff mode · <a href="https://github.com/wmorrill3/lightcue" target="_blank" rel="noopener">Open source</a></p>
+      <h1>Any song.<br />Your Tesla<br />dances to it.</h1>
+      <p class="lede">Drop a track and LightCue's agent choreographs every light, door, window, mirror and the charge port to the beat. You get a USB pack that plays right in the car.</p>
+    </div>
+
+    <aside class="studio" id="studio">
+      <div class="st-head"><span id="st-title">Make a show</span><span class="st-step" id="st-state">1 min</span></div>
+      <label class="drop" id="drop">
+        <input type="file" id="file" accept="audio/*,.mp3,.wav,.m4a,.flac,.ogg" hidden />
+        <span class="drop-main" id="drop-main">Drop a song</span>
+        <span class="drop-sub" id="drop-sub">mp3, wav, m4a or flac · up to 15 min</span>
+      </label>
+      <div class="row"><span class="lbl">Car</span><div class="chips" id="car"></div></div>
+      <p class="rd-note" id="rd-note" hidden>The new Roadster can't load custom shows yet (deliveries 2027). Make the show now, watch it lift off on the drop, and record the clip.</p>
+      <div class="row" id="row-n"><span class="lbl">Cars</span>
+        <div class="stepper"><button type="button" id="n-dn" aria-label="fewer cars">−</button><b id="n">1</b><button type="button" id="n-up" aria-label="more cars">+</button></div>
+      </div>
+      <div class="row"><span class="lbl">Vibe</span><div class="seg" id="vibe"></div></div>
+      <div class="row"><span class="lbl">Interior</span><div class="swatches" id="palette"></div></div>
+      <div class="row" id="row-wrap"><span class="lbl">Wrap</span><div class="wraps" id="wrap"></div></div>
+      <div class="row" id="variant-row" hidden><span class="lbl">Body</span><select id="variant"></select></div>
+      <div class="row" id="row-cl"><span class="lbl">Moving parts</span><div class="seg" id="closures"></div></div>
+      <button class="go" id="go" disabled>Choreograph</button>
+      <button class="ghost" id="rec-demo" hidden>Record this clip</button>
+      <p class="st-msg" id="msg"></p>
+      <div class="ready" id="ready" hidden>
+        <a class="go" id="dl" href="#">Download USB pack</a>
+        <button class="go" id="rec" hidden>Record clip</button>
+        <form class="wl" id="wl" hidden><input id="wl-in" placeholder="Email or @handle for Roadster access" autocomplete="off" /><button>Join</button></form>
+        <button class="ghost" id="share">Copy share link</button>
+      </div>
+    </aside>
+
+    <div class="player" id="player">
+      <button class="play" id="play" aria-label="Play">
+        <svg viewBox="0 0 24 24" width="18" height="18"><path id="play-ico" d="M7 4.5v15l13-7.5z" fill="currentColor" /></svg>
+      </button>
+      <div class="track">
+        <div class="track-meta"><span id="now">Demo · LightCue Original</span><span class="mono" id="time">0:00</span></div>
+        <div class="bar" id="bar"><div class="bands" id="bands"></div><div class="head" id="head"></div></div>
+        <div class="cues" id="cues"></div>
+      </div>
+    </div>
+  </section>
+
+  <main>
+    <section class="block" id="how">
+      <p class="eyebrow">How it works</p>
+      <ol class="steps">
+        <li><b>It listens.</b> Tempo, every kick and hi-hat, the build-ups and the drops, mapped onto the car's 50 frames per second.</li>
+        <li><b>It choreographs.</b> Headlight chases on the hats, brake hits on the kick, a blackout before the drop. Then the liftgate opens, the windows dance and the charge port flashes rainbow on the big moment. Every Tesla limit is respected.</li>
+        <li><b>You plug it in.</b> Copy the pack to a USB drive and open Toybox. The light show, a lock sound cut from the hook and your wrap are ready.</li>
+      </ol>
+      <p class="fine">Works on Model 3, Model Y, Model S (2021+), Model X (2021+) and Cybertruck, software 11.0 or newer. Shows pass Tesla's own validator before you download them.</p>
+    </section>
+
+    <section class="block split" id="fleet">
+      <div>
+        <p class="eyebrow">Fleet</p>
+        <h2>Two cars or twelve. One show.</h2>
+        <p>Set the number of cars and LightCue writes a different part for each one. Chases run from car to car, the hits land together, and each interior gets its own colour. Park them in order, schedule the same start time in each car and they play as one.</p>
+      </div>
+      <p class="aside">For car meets, weddings, launches and dealer events.</p>
+    </section>
+
+    <section class="block" id="agents">
+      <p class="eyebrow">For agents</p>
+      <h2>An API and an MCP server, so any AI can do this.</h2>
+      <p>Claude, ChatGPT or your own agent can make a show for its user: send a song link and get back a validated USB pack. Four tools: <code>list_options</code>, <code>create_light_show</code>, <code>get_light_show</code>, <code>validate_fseq</code>. The whole engine is <a href="https://github.com/wmorrill3/lightcue" target="_blank" rel="noopener">open source on GitHub</a> (MIT), so you can also run it yourself.</p>
+      <div class="code">
+        <div class="code-tabs"><button class="on" data-tab="mcp">MCP</button><button data-tab="rest">REST</button></div>
+        <pre id="code-mcp"><code>{
+  "mcpServers": {
+    "lightcue": { "url": "<span class="origin"></span>/mcp" }
+  }
+}</code></pre>
+        <pre id="code-rest" hidden><code>curl -X POST "<span class="origin"></span>/api/v1/shows?car=modely&amp;vibe=party" \
+  -H "content-type: audio/mpeg" --data-binary @song.mp3
+
+# → { "id": "…", "status": "queued" }
+curl <span class="origin"></span>/api/v1/shows/&lt;id&gt;
+# → status "done", download, preview, analysis</code></pre>
+      </div>
+    </section>
+
+    <section class="block" id="faq">
+      <p class="eyebrow">Good to know</p>
+      <dl class="faq">
+        <dt>Is it safe for my car?</dt><dd>Shows use Tesla's official light show format. Every closure stays inside Tesla's per-show command limits, dances are kept under 30 seconds, and on Model X the windows never move while the falcon doors do. You can also pick "Lights only".</dd>
+        <dt>How do I play it?</dt><dd>Format a USB drive as exFAT or FAT32, copy the pack to the root, plug it in and go to Toybox → Light Show. Park somewhere with room around the car.</dd>
+        <dt>Does it work on the new Roadster?</dt><dd>Not in the car yet: the Roadster ships in 2027 and Tesla hasn't published its light-show format. Pick Roadster to watch your show with liftoff on the drop and record the clip. Join the list and you'll get the real file the day Tesla opens it.</dd>
+        <dt>What happens to my song?</dt><dd>It's used to make your show and deleted after processing. The preview audio and your pack expire after 7 days.</dd>
+      </dl>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <span>LightCue · <a href="https://github.com/wmorrill3/lightcue" target="_blank" rel="noopener">Open source on GitHub</a></span>
+    <span class="dim">Not affiliated with Tesla, Inc. Tesla, Model 3, Model Y, Model S, Model X and Cybertruck are trademarks of Tesla, Inc.</span>
+  </footer>
+
+  <audio id="audio" preload="auto" crossorigin="anonymous"></audio>
+  <script type="module" src="./main.js"></script>
+</body>
+</html>
